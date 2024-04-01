@@ -37,9 +37,10 @@ export default function App() {
                 </Authenticated>
               }
             >
+              <Route index path="dashboard" element={<Dashboard />} />
               <Route path="profiles">
                 <Route index element={<Profiles />} />
-                <Route path="edit" element={<EditProfile />} />
+                <Route path="edit/:id" element={<EditProfile />} />
               </Route>
             </Route>
           </Routes>
