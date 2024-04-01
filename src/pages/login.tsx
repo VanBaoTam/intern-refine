@@ -13,6 +13,7 @@ export const Login = () => {
       new FormData(event.currentTarget).entries()
     );
     mutate(data);
+    console.log("HERE");
   };
 
   return (

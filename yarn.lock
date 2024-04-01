@@ -781,6 +781,14 @@
     react-router-dom "^6.8.1"
     semver-diff "^3.1.1"
 
+"@refinedev/react-router-v6@^4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@refinedev/react-router-v6/-/react-router-v6-4.5.6.tgz#1f938d2999f4323b998a9645e3fbbc5784cca650"
+  integrity sha512-HF2ILYidXXj933ZMwgrAzqO5J7iak5iI53J6mC/rwGAUD/7zLgY2BdJ3NxyT2i/m6oM3KhWHq5LYQJN7cbIBbg==
+  dependencies:
+    qs "^6.10.1"
+    react-router-dom "^6.8.1"
+
 "@remix-run/router@1.15.3":
   version "1.15.3"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.15.3.tgz#d2509048d69dbb72d5389a14945339f1430b2d3c"
@@ -4044,7 +4052,7 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-router-dom@^6.8.1:
+react-router-dom@^6.22.3, react-router-dom@^6.8.1:
   version "6.22.3"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.22.3.tgz#9781415667fd1361a475146c5826d9f16752a691"
   integrity sha512-7ZILI7HjcE+p31oQvwbokjk6OA/bnFxrhJ19n82Ex9Ph8fNAq+Hm/7KchpMGlTgWhUxRHMMCut+vEtNpWpowKw==

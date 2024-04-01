@@ -11,13 +11,18 @@ export const authProvider: AuthProvider = {
     });
 
     const data = await response.json();
-
+    console.log(data);
     if (data.token) {
       localStorage.setItem("my_access_token", data.token);
       return { success: true };
     }
-
-    return { success: false };
+    return {
+      success: false,
+      error: {
+        name: "Login Error",
+        message: "Login Failed",
+      },
+    };
   },
   check: async () => {
     const token = localStorage.getItem("my_access_token");

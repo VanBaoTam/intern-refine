@@ -1,32 +1,50 @@
 import { Refine, Authenticated } from "@refinedev/core";
-
 import { dataProvider } from "./providers/data.provider";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { authProvider } from "./providers/auth.provider";
-
-import { ShowProduct } from "./pages/products/show";
-import { EditProduct } from "./pages/products/edit";
-import { ListProducts } from "./pages/products/list";
-import { CreateProduct } from "./pages/products/create";
 import { Login } from "./pages/login";
-import { Header } from "./components/header";
-import { Aside } from "./components/aside";
-export default function App(): JSX.Element {
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { EditProfile, Profiles } from "./pages/products";
+import Layout from "./components/layout";
+import Dashboard from "./pages/dashboard";
+export default function App() {
   return (
-    <div className="bg-gradient-to-r from-blue-300 to-blue-800 flex flex-col  w-full h-screen">
-      <Refine dataProvider={dataProvider} authProvider={authProvider}>
-        <Authenticated key="protected" fallback={<Login />}>
-          <div className="flex h-full">
-            <Aside />
-            <div className="flex flex-col h-full w-11/12">
-              <Header />
-              {/* <ShowProduct /> */}
-              {/* <EditProduct /> */}
-              <ListProducts />
-              {/* <CreateProduct /> */}
-            </div>
-          </div>
-        </Authenticated>
+    <BrowserRouter>
+      <Refine
+        dataProvider={dataProvider}
+        authProvider={authProvider}
+        routerProvider={routerProvider}
+        resources={[
+          { name: "profiles", list: "/profiles", edit: "/profiles/edit/:id" },
+          { name: "dashboard", list: "/dashboard" },
+        ]}
+      >
+        <Layout>
+          <Routes>
+            <Route
+              element={
+                <Authenticated key="protected" fallback={<Login />}>
+                  <NavigateToResource resource="dashboard" />
+                </Authenticated>
+              }
+            >
+              <Route path="/" element={<Login />} />
+            </Route>
+            <Route
+              element={
+                <Authenticated key="authenticated" redirectOnFail="/login">
+                  <Outlet />
+                </Authenticated>
+              }
+            >
+              <Route path="profiles">
+                <Route index element={<Profiles />} />
+                <Route path="edit" element={<EditProfile />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Layout>
       </Refine>
-    </div>
+    </BrowserRouter>
   );
 }

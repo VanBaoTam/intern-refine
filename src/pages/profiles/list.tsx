@@ -1,6 +1,6 @@
 import { useTable, useMany } from "@refinedev/core";
 import "./list.css";
-export const Profiles = () => {
+export const ListProducts = () => {
   const {
     tableQueryResult: { data, isLoading },
     current,
