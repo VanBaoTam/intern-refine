@@ -1,4 +1,5 @@
 import { AuthProvider } from "@refinedev/core";
+import { OnErrorResponse } from "@refinedev/core/dist/interfaces";
 const AUTH_PATH = "https://api.fake-rest.refine.dev/auth";
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
@@ -28,11 +29,10 @@ export const authProvider: AuthProvider = {
     const token = localStorage.getItem("my_access_token");
     return { authenticated: Boolean(token) };
   },
-  onError: async (error): Promise<any> => {
+  onError: async (error): Promise<OnErrorResponse> => {
     if (error?.status === 401) {
       return {
         logout: true,
-        error: { message: "Unauthorized" },
       };
     }
 

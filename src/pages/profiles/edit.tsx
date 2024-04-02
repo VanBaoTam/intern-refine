@@ -1,4 +1,5 @@
 import { useForm, useSelect } from "@refinedev/core";
+import { useCallback, useMemo } from "react";
 
 export const EditProfile = () => {
   const { onFinish, mutationResult, queryResult } = useForm({
@@ -13,7 +14,7 @@ export const EditProfile = () => {
     resource: "categories",
   });
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = Object.fromEntries(
       new FormData(event.currentTarget).entries()
@@ -23,7 +24,7 @@ export const EditProfile = () => {
       price: Number(data.price).toFixed(2),
       category: { id: Number(data.category) },
     });
-  };
+  }, []);
 
   return (
     <form onSubmit={onSubmit}>

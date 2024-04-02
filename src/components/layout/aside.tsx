@@ -8,7 +8,7 @@ import { TAsideLinks } from "../../types";
 
 export const Aside = () => {
   const [role, setRole] = useState(ROLE.ADMIN_ROLE); //? 1 -- admin , 2 -- patient
-  const location = useLocation();
+  const location = useLocation() || "";
   const RenderIcons = useCallback((icon: string) => {
     switch (icon) {
       case "Dashboard": {
