@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLogin } from "@refinedev/core";
 
-import FormInput from "../components/auth/input";
+import FormInput from "../../components/auth/input";
 
 export const Login = () => {
   const { mutate, isLoading } = useLogin();

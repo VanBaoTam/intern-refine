@@ -2,11 +2,12 @@ import { Refine, Authenticated } from "@refinedev/core";
 import { dataProvider } from "./providers/data.provider";
 import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { authProvider } from "./providers/auth.provider";
-import { Login } from "./pages/login";
+import { Login } from "./pages/account/login";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { EditProfile, Profiles } from "./pages/products";
+import { EditProfile, Profiles } from "./pages/profiles";
 import Layout from "./components/layout";
 import Dashboard from "./pages/dashboard";
+import NotFound from "./pages/utils/not-found";
 export default function App() {
   return (
     <BrowserRouter>
@@ -32,7 +33,7 @@ export default function App() {
             </Route>
             <Route
               element={
-                <Authenticated key="authenticated" redirectOnFail="/login">
+                <Authenticated key="authenticated" redirectOnFail="/">
                   <Outlet />
                 </Authenticated>
               }
@@ -43,6 +44,7 @@ export default function App() {
                 <Route path="edit/:id" element={<EditProfile />} />
               </Route>
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </Refine>

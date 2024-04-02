@@ -20,7 +20,11 @@ export const Profiles = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-full bg-white px-4 ">
+        <h1 className="text-2xl p-2 font-semibold">Loading....</h1>
+      </div>
+    );
   }
 
   const onPrevious = () => {
@@ -65,7 +69,7 @@ export const Profiles = () => {
 
   return (
     <div className="h-full bg-white px-4 ">
-      <h1 className="text-2xl p-2 font-semibold">Products</h1>
+      <h1 className="text-2xl p-2 font-semibold">Profiles</h1>
       <div className="overflow-x-auto ">
         <table className="table-auto border border-solid border-collapse border-gray-300 w-full">
           <thead>

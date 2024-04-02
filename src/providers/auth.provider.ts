@@ -59,6 +59,6 @@ export const authProvider: AuthProvider = {
   },
   logout: async () => {
     localStorage.removeItem("my_access_token");
-    return { success: true };
+    return { success: true, redirectTo: "/" };
   },
 };

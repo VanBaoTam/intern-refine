@@ -11,10 +11,12 @@ export const Aside = () => {
   const location = useLocation();
   const RenderIcons = useCallback((icon: string) => {
     switch (icon) {
-      case "Dashboard":
+      case "Dashboard": {
         return <TiHome />;
-      case "Profiles":
+      }
+      case "Profiles": {
         return <ImProfile />;
+      }
       default:
         break;
     }

@@ -1,6 +1,6 @@
 import { useTable, useMany } from "@refinedev/core";
 import "./list.css";
-export const ListProducts = () => {
+export const Profiles = () => {
   const {
     tableQueryResult: { data, isLoading },
     current,
@@ -20,7 +20,11 @@ export const ListProducts = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-full bg-white px-4 ">
+        <h1 className="text-2xl p-2 font-semibold">Loading....</h1>
+      </div>
+    );
   }
 
   const onPrevious = () => {
@@ -65,11 +69,11 @@ export const ListProducts = () => {
 
   return (
     <div className="h-full bg-white px-4 ">
-      <h1 className="text-2xl p-2 font-semibold">Products</h1>
+      <h1 className="text-2xl p-2 font-semibold">Profiles</h1>
       <div className="overflow-x-auto ">
         <table className="table-auto border border-solid border-collapse border-gray-300 w-full">
           <thead>
-            <tr className="">
+            <tr>
               <th onClick={() => onSort("id")} className="cursor-pointer w-8">
                 ID {indicator[getSorter("id")!]}
               </th>
@@ -94,20 +98,20 @@ export const ListProducts = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="">
+          <tbody>
             {data?.data?.map((product) => (
               <tr key={product.id}>
-                <td className="">{product.id}</td>
-                <td className="">{product.name}</td>
-                <td className="">
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                <td>
                   {
                     categories?.data?.find(
-                      (category) => category.id == product.category?.id
+                      (category) => category.id === product.category?.id
                     )?.title
                   }
                 </td>
-                <td className="">{product.material}</td>
-                <td className="">{product.price}$</td>
+                <td>{product.material}</td>
+                <td>{product.price}$</td>
               </tr>
             ))}
           </tbody>
