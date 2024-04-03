@@ -79,14 +79,14 @@ export const dataProvider: DataProvider = {
   },
   getApiUrl: () => EnvironmentProvider.getInstance().get(TEnv.baseUrl)!,
   getMany: async ({ resource, ids }) => {
-    const params: Record<string, string> = {};
+    const params = new URLSearchParams();
 
     if (ids) {
-      ids.forEach((id) => (params["id"] = String(id)));
+      ids.forEach((id) => params.append("id", id + ""));
     }
-
-    const response = await apiProvider.get({ path: `${resource}`, params });
-    console.log("[get-many]: status - ", response.status);
+    const response = await apiProvider.get({
+      path: `${resource}?${params.toString()}`,
+    });
     return handleResponse(response);
   },
 };

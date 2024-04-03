@@ -41,7 +41,12 @@ export class DataProviderService {
 
     try {
       const response = await axios.request(props);
-      console.log("[response-api],%s", response);
+      console.log(
+        "[response-api]: status - ",
+        response.status,
+        "\ndata: ",
+        response.data
+      );
       return response;
     } catch (error) {
       console.error("[send-api],%s", error);
