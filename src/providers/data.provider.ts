@@ -21,6 +21,9 @@ export const dataProvider: DataProvider = {
     const response = await apiProvider.patch({
       path: `${resource}/${id}`,
       body: variables,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     console.log("[update],", response);
     return handleResponse(response);
@@ -68,6 +71,9 @@ export const dataProvider: DataProvider = {
     const response = await apiProvider.post({
       path: `${resource}`,
       body: variables,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     console.log("[create],", response);
     return handleResponse(response);

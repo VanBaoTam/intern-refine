@@ -5,7 +5,7 @@ import { EnvironmentProvider } from "../providers/env.provider";
 export class DataProviderService {
   private static instance: DataProviderService;
   private static readonly BASE_URL: string =
-    EnvironmentProvider.getInstance().get(TEnv.baseUrl)!;
+    EnvironmentProvider.getInstance().get(TEnv.baseUrl) || "";
 
   private constructor() {}
 
