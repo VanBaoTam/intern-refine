@@ -1,42 +1,35 @@
 import type { DataProvider, GetListParams } from "@refinedev/core";
+import { useDataProvider } from "../hooks";
+import { EnvironmentProvider } from "../providers/env.provider";
+import { TEnv } from "../types";
+import { HTTP_ERROR_CODE } from "../constants";
 
+const apiProvider = useDataProvider();
 const API_URL = "https://api.fake-rest.refine.dev";
-
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`);
-
-    if (response.status >= 400) {
-      throw response;
-    }
-
-    const data = await response.json();
-
-    return { data };
+    const response = await apiProvider.get({ path: `${resource}/${id}` });
+    console.log(
+      "[get-one]: status - ",
+      response.status,
+      ", data:",
+      response.data
+    );
+    return handleResponse(response);
   },
   update: async ({ resource, id, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(variables),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await apiProvider.patch({
+      path: `${resource}/${id}`,
+      body: variables,
     });
-
-    if (response.status >= 400) {
-      throw response;
-    }
-
-    const data = await response.json();
-
-    return { data };
+    console.log("[update],", response);
+    return handleResponse(response);
   },
   getList: async ({
     resource,
     pagination,
     filters,
     sorters,
-    meta,
   }: GetListParams) => {
     const params = new URLSearchParams();
 
@@ -63,7 +56,7 @@ export const dataProvider: DataProvider = {
     if (response.status >= 400) {
       throw response;
     }
-
+    console.log("[get-list]: status - ", response.status);
     const data = await response.json();
     const total = Number(response.headers.get("x-total-count"));
     return {
@@ -72,41 +65,35 @@ export const dataProvider: DataProvider = {
     };
   },
   create: async ({ resource, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}`, {
-      method: "POST",
-      body: JSON.stringify(variables),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await apiProvider.post({
+      path: `${resource}`,
+      body: variables,
     });
-
-    if (response.status >= 400) {
-      throw response;
-    }
-
-    const data = await response.json();
-
-    return { data };
+    console.log("[create],", response);
+    return handleResponse(response);
   },
-  deleteOne: () => {
-    throw new Error("Not implemented");
+  deleteOne: async ({ resource, id }) => {
+    const response = await apiProvider.delete({ path: `${resource}/${id}` });
+    console.log("[delete-one],", response);
+    return handleResponse(response);
   },
-  getApiUrl: () => API_URL,
-  getMany: async ({ resource, ids, meta }) => {
-    const params = new URLSearchParams();
+  getApiUrl: () => EnvironmentProvider.getInstance().get(TEnv.baseUrl)!,
+  getMany: async ({ resource, ids }) => {
+    const params: Record<string, string> = {};
 
     if (ids) {
-      ids.forEach((id) => params.append("id", id + ""));
+      ids.forEach((id) => (params["id"] = String(id)));
     }
 
-    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
-
-    if (response.status >= 400) {
-      throw response;
-    }
-
-    const data = await response.json();
-
-    return { data };
+    const response = await apiProvider.get({ path: `${resource}`, params });
+    console.log("[get-many]: status - ", response.status);
+    return handleResponse(response);
   },
+};
+
+const handleResponse = async (response: any) => {
+  if (response.status >= HTTP_ERROR_CODE) {
+    throw response;
+  }
+  return { data: response.data };
 };

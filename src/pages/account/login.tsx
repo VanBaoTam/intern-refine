@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { useLogin } from "@refinedev/core";
-
 import FormInput from "../../components/auth/input";
 
 export const Login = () => {
   const { mutate, isLoading } = useLogin();
   const [isSignUp, setIsSignUp] = useState(false);
-
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = Object.fromEntries(
       new FormData(event.currentTarget).entries()
     );
     mutate(data);
-    console.log("HERE");
   };
 
   return (
