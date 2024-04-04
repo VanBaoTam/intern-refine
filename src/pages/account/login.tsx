@@ -28,8 +28,8 @@ export const Login = () => {
             title="Username"
             field="name"
             type="name"
-            name="name"
-            defaultValue="demo@demo.com"
+            name="username"
+            defaultValue="testing"
           />
           {!isSignUp && (
             <FormInput
@@ -37,7 +37,7 @@ export const Login = () => {
               field="password"
               type="password"
               name="password"
-              defaultValue="demodemo"
+              defaultValue="12345678Chin!"
             />
           )}
           {isSignUp && (

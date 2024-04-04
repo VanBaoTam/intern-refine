@@ -7,11 +7,11 @@ const apiProvider = useDataProvider();
 const baseUrl = EnvironmentProvider.getInstance().get(TEnv.VITE_AUTH_PATH);
 
 export const authProvider: AuthProvider = {
-  login: async ({ email, password }) => {
+  login: async ({ username, password }) => {
     const response = await apiProvider.post({
       baseUrl,
       path: `login`,
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
       headers: {
         "Content-Type": "application/json",
       },
