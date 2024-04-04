@@ -11,7 +11,7 @@ export interface IRequestOptions {
   headers?: Record<string | symbol | number, any>;
 }
 export enum TEnv {
-  baseUrl = "baseUrl",
+  VITE_BASE_URL = "VITE_BASE_URL",
 }
 export interface IRequestUrl {
   baseUrl?: string;

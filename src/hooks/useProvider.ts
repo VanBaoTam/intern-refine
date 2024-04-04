@@ -1,4 +1,4 @@
-import { EnvironmentProvider } from "../providers/env.provider";
+import { EnvironmentProvider } from "../helper/env.provider";
 import { DataProviderService } from "../services/data-provider.service";
 
 export const useDataProvider = () => {

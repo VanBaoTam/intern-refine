@@ -1,6 +1,6 @@
 import type { DataProvider, GetListParams } from "@refinedev/core";
 import { useDataProvider } from "../hooks";
-import { EnvironmentProvider } from "../providers/env.provider";
+import { EnvironmentProvider } from "../helper/env.provider";
 import { TEnv } from "../types";
 import { HTTP_ERROR_CODE } from "../constants";
 
@@ -83,7 +83,7 @@ export const dataProvider: DataProvider = {
     console.log("[delete-one],", response);
     return handleResponse(response);
   },
-  getApiUrl: () => EnvironmentProvider.getInstance().get(TEnv.baseUrl)!,
+  getApiUrl: () => EnvironmentProvider.getInstance().get(TEnv.VITE_BASE_URL)!,
   getMany: async ({ resource, ids }) => {
     const params = new URLSearchParams();
 

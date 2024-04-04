@@ -1,11 +1,11 @@
 import { IRequestOptions, IRequestUrl, TEnv } from "../types";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { EnvironmentProvider } from "../providers/env.provider";
+import { EnvironmentProvider } from "../helper/env.provider";
 
 export class DataProviderService {
   private static instance: DataProviderService;
   private static readonly BASE_URL: string =
-    EnvironmentProvider.getInstance().get(TEnv.baseUrl) || "";
+    EnvironmentProvider.getInstance().get(TEnv.VITE_BASE_URL) || "";
 
   private constructor() {}
 
@@ -41,12 +41,7 @@ export class DataProviderService {
 
     try {
       const response = await axios.request(props);
-      console.log(
-        "[response-api]: status - ",
-        response.status,
-        "\ndata: ",
-        response.data
-      );
+      console.log("[response-api-data]:", response.data);
       return response;
     } catch (error) {
       console.error("[send-api],%s", error);
