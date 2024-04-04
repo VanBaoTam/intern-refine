@@ -12,6 +12,7 @@ export interface IRequestOptions {
 }
 export enum TEnv {
   VITE_BASE_URL = "VITE_BASE_URL",
+  VITE_AUTH_PATH = "VITE_AUTH_PATH",
 }
 export interface IRequestUrl {
   baseUrl?: string;

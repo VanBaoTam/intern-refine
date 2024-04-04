@@ -11,14 +11,6 @@ export class EnvironmentProvider {
     return EnvironmentProvider.instance;
   }
   get(key: TEnv) {
-    switch (key) {
-      case TEnv.VITE_BASE_URL: {
-        return import.meta.env[key];
-      }
-
-      default: {
-        break;
-      }
-    }
+    return import.meta.env[key];
   }
 }

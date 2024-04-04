@@ -25,10 +25,10 @@ export const Login = () => {
           className="w-full max-w-md mx-auto flex flex-col p-6"
         >
           <FormInput
-            title="Email"
-            field="email"
-            type="email"
-            name="email"
+            title="Username"
+            field="name"
+            type="name"
+            name="name"
             defaultValue="demo@demo.com"
           />
           {!isSignUp && (

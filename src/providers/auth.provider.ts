@@ -1,19 +1,27 @@
 import { AuthProvider } from "@refinedev/core";
+import { useDataProvider } from "../hooks";
 import { OnErrorResponse } from "@refinedev/core/dist/interfaces";
-const AUTH_PATH = "https://api.fake-rest.refine.dev/auth";
+import { EnvironmentProvider } from "../helper/env.provider";
+import { TEnv } from "../types";
+const apiProvider = useDataProvider();
+const baseUrl = EnvironmentProvider.getInstance().get(TEnv.VITE_AUTH_PATH);
+
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const response = await fetch(AUTH_PATH + "/login", {
-      method: "POST",
+    const response = await apiProvider.post({
+      baseUrl,
+      path: `login`,
       body: JSON.stringify({ email, password }),
       headers: {
         "Content-Type": "application/json",
       },
     });
+    console.log("[login] - ", response);
+    const { data } = response ?? {};
+    if (data.token.value && data.token.type && data.role) {
+      localStorage.setItem("token", data.token.value);
+      localStorage.setItem("type", data.token.type);
 
-    const data = await response.json();
-    if (data.token) {
-      localStorage.setItem("my_access_token", data.token);
       return { success: true };
     }
     return {
@@ -42,17 +50,20 @@ export const authProvider: AuthProvider = {
     if (!token) {
       return null;
     }
-    const response = await fetch(AUTH_PATH + "/me", {
+    const response = await apiProvider.get({
+      baseUrl,
+      path: `get-profile`,
       headers: {
-        Authorization: token,
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
     });
-
+    console.log("[getIdentity],", response);
     if (response.status < 200 || response.status > 299) {
       return null;
     }
 
-    const data = await response.json();
+    const data = await response.data;
 
     return data;
   },
