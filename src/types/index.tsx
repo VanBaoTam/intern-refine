@@ -18,3 +18,7 @@ export interface IRequestUrl {
   baseUrl?: string;
   path?: string;
 }
+export type TToken = {
+  value: string;
+  type: string;
+};

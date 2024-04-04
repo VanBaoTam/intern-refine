@@ -1,14 +1,26 @@
 import type { DataProvider, GetListParams } from "@refinedev/core";
-import { useDataProvider } from "../hooks";
+import { useDataProvider, useUserProvider } from "../hooks";
 import { EnvironmentProvider } from "../helper/env.provider";
 import { TEnv } from "../types";
 import { HTTP_ERROR_CODE } from "../constants";
+import { GetRole } from "../utils";
 
 const apiProvider = useDataProvider();
+const userProvider = useUserProvider();
+const rolePath = GetRole(userProvider.getRole());
 const API_URL = "https://api.fake-rest.refine.dev";
+console.log(rolePath);
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
-    const response = await apiProvider.get({ path: `${resource}/${id}` });
+    const path = id
+      ? `${rolePath}/${resource}/${id}`
+      : `${rolePath}/${resource}`;
+    const response = await apiProvider.get({
+      path,
+      headers: {
+        Authorization: "Bearer " + userProvider.findToken("Bearer"),
+      },
+    });
     console.log(
       "[get-one]: status - ",
       response.status,

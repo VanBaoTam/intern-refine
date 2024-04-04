@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { TiHome } from "react-icons/ti";
 import { ImProfile } from "react-icons/im";
 import { TAsideLinks } from "../../types";
+import { useUserProvider } from "../../hooks";
 
 export const Aside = () => {
-  const [role, setRole] = useState(ROLE.ADMIN_ROLE); //? 1 -- admin , 2 -- patient
+  const userProvider = useUserProvider();
+  const [role, _] = useState(userProvider ? userProvider.getRole() : null);
   const location = useLocation() || "";
   const RenderIcons = useCallback((icon: string) => {
     switch (icon) {
@@ -15,6 +17,9 @@ export const Aside = () => {
         return <TiHome />;
       }
       case "Profiles": {
+        return <ImProfile />;
+      }
+      case "Profile": {
         return <ImProfile />;
       }
       default:

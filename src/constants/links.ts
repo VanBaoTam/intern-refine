@@ -6,6 +6,6 @@ const ADMIN_ASIDE_LINKS: TAsideLinks[] = [
 ];
 const PATIENT_ASIDE_LINKS: TAsideLinks[] = [
   { name: "Dashboard", link: "/dashboard" },
-  { name: "Profile", link: "/profiles" },
+  { name: "Profile", link: "/profiles/show/self" },
 ];
 export { ADMIN_ASIDE_LINKS, PATIENT_ASIDE_LINKS };

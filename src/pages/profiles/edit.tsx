@@ -1,11 +1,12 @@
 import { useForm, useSelect } from "@refinedev/core";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
+import { useUserProvider } from "../../hooks";
 
 export const EditProfile = () => {
+  // const userProvider = useUserProvider();
   const { onFinish, mutationResult, queryResult } = useForm({
     action: "edit",
-    resource: "products",
-    id: "123",
+    resource: "profiles",
   });
 
   const record = queryResult!.data?.data;

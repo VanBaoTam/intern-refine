@@ -4,7 +4,7 @@ import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { authProvider } from "./providers/auth.provider";
 import { Login } from "./pages/account/login";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { EditProfile, Profiles } from "./pages/profiles";
+import { EditProfile, Profiles, ShowProfile } from "./pages/profiles";
 import Layout from "./components/layout";
 import Dashboard from "./pages/dashboard";
 import NotFound from "./pages/utils/not-found";
@@ -16,7 +16,12 @@ export default function App() {
         authProvider={authProvider}
         routerProvider={routerProvider}
         resources={[
-          { name: "profiles", list: "/profiles", edit: "/profiles/edit/:id" },
+          {
+            name: "profiles",
+            list: "/profiles",
+            edit: "/profiles/edit/:id",
+            show: "profiles/show/:id",
+          },
           { name: "dashboard", list: "/dashboard" },
         ]}
       >
@@ -42,6 +47,7 @@ export default function App() {
               <Route path="profiles">
                 <Route index element={<Profiles />} />
                 <Route path="edit/:id" element={<EditProfile />} />
+                <Route path="show/:id" element={<ShowProfile />} />
               </Route>
             </Route>
             <Route path="*" element={<NotFound />} />

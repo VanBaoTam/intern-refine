@@ -1,11 +1,11 @@
 import { AuthProvider } from "@refinedev/core";
-import { useDataProvider } from "../hooks";
+import { InitUserProvider, useDataProvider, useUserProvider } from "../hooks";
 import { OnErrorResponse } from "@refinedev/core/dist/interfaces";
 import { EnvironmentProvider } from "../helper/env.provider";
 import { TEnv } from "../types";
 const apiProvider = useDataProvider();
 const baseUrl = EnvironmentProvider.getInstance().get(TEnv.VITE_AUTH_PATH);
-
+const userProvider = useUserProvider();
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
     const response = await apiProvider.post({
@@ -16,13 +16,14 @@ export const authProvider: AuthProvider = {
         "Content-Type": "application/json",
       },
     });
-    console.log("[login] - ", response);
     const { data } = response ?? {};
+    console.log("[login-data] - ", data);
     if (data.token.value && data.token.type && data.role) {
-      localStorage.setItem("token", data.token.value);
-      localStorage.setItem("type", data.token.type);
-
-      return { success: true };
+      InitUserProvider(data.role, {
+        type: data.token.type,
+        value: data.token.value,
+      });
+      return { success: true, redirectTo: "/dashboard" };
     }
     return {
       success: false,
@@ -33,7 +34,7 @@ export const authProvider: AuthProvider = {
     };
   },
   check: async () => {
-    const token = localStorage.getItem("my_access_token");
+    const token = userProvider.findToken("Bearer");
     return { authenticated: Boolean(token) };
   },
   onError: async (error): Promise<OnErrorResponse> => {
@@ -46,7 +47,8 @@ export const authProvider: AuthProvider = {
     return {};
   },
   getIdentity: async () => {
-    const token = localStorage.getItem("my_access_token");
+    const token = userProvider.findToken("Bearer");
+    console.log("token", token);
     if (!token) {
       return null;
     }
@@ -68,7 +70,8 @@ export const authProvider: AuthProvider = {
     return data;
   },
   logout: async () => {
-    localStorage.removeItem("my_access_token");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("type");
     return { success: true, redirectTo: "/" };
   },
 };

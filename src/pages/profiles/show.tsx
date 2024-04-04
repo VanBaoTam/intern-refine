@@ -1,8 +1,6 @@
 import { useOne } from "@refinedev/core";
-
-export const ShowProduct = () => {
-  const { data, isLoading } = useOne({ resource: "products", id: 123 });
-
+export const ShowProfile = () => {
+  const { data, isLoading } = useOne({ resource: "get-profile", id: 0 });
   if (isLoading) {
     return (
       <div className="h-full bg-white px-4 ">
@@ -11,5 +9,18 @@ export const ShowProduct = () => {
     );
   }
 
-  return <div>Product name: {data?.data.name}</div>;
+  return (
+    <div className="h-full bg-white px-4 ">
+      <h1 className="text-2xl p-2 font-semibold">Name</h1>
+      <p>{data?.data.name}</p>
+      <h1 className="text-2xl p-2 font-semibold">Email</h1>
+      <p>{data?.data.email}</p>
+      <h1 className="text-2xl p-2 font-semibold">Age</h1>
+      <p>{data?.data.age}</p>
+      <h1 className="text-2xl p-2 font-semibold">Emergency Contact</h1>
+      <p>{data?.data.emergencyContact}</p>
+      <h1 className="text-2xl p-2 font-semibold">Phone Number</h1>
+      <p>{data?.data.numberPhone}</p>
+    </div>
+  );
 };
