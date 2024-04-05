@@ -6,10 +6,12 @@ type TFormInput = {
   min?: number;
   max?: number;
   defaultValue: string | number;
+  disabled?: boolean;
 };
 
 function FormInput(formInput: TFormInput) {
-  const { title, field, type, name, min, max, defaultValue } = formInput ?? {};
+  const { title, field, type, name, min, max, defaultValue, disabled } =
+    formInput ?? {};
   return (
     <div className="flex flex-col py-1">
       <label htmlFor={name} className="text-lg font-semibold mb-1">
@@ -21,6 +23,7 @@ function FormInput(formInput: TFormInput) {
         name={name || "name "}
         min={field === "age" ? min : 0}
         max={field === "age" ? max : 100}
+        disabled={disabled || false}
         minLength={type === "phoneNumber" ? 10 : 1}
         maxLength={type === "phoneNumber" ? 10 : 50}
         defaultValue={defaultValue || "Name"}

@@ -48,7 +48,6 @@ export const authProvider: AuthProvider = {
   },
   getIdentity: async () => {
     const token = userProvider.findToken("Bearer");
-    console.log("token", token);
     if (!token) {
       return null;
     }

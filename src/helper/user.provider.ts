@@ -34,7 +34,6 @@ export class UserProvider {
     this.tokens.push(token);
   }
   public findToken(type: string) {
-    console.log(this.tokens);
     const index = this.tokens.findIndex((token) => token.type === type);
     // if found
     if (index !== -1) {

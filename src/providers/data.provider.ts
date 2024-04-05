@@ -9,7 +9,6 @@ const apiProvider = useDataProvider();
 const userProvider = useUserProvider();
 const rolePath = GetRole(userProvider.getRole());
 const API_URL = "https://api.fake-rest.refine.dev";
-console.log(rolePath);
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     const path = id

@@ -1,6 +1,8 @@
 import { useOne } from "@refinedev/core";
+import FormInput from "../../components/auth/input";
 export const ShowProfile = () => {
   const { data, isLoading } = useOne({ resource: "get-profile", id: 0 });
+
   if (isLoading) {
     return (
       <div className="h-full bg-white px-4 ">
@@ -11,16 +13,62 @@ export const ShowProfile = () => {
 
   return (
     <div className="h-full bg-white px-4 ">
-      <h1 className="text-2xl p-2 font-semibold">Name</h1>
-      <p>{data?.data.name}</p>
-      <h1 className="text-2xl p-2 font-semibold">Email</h1>
-      <p>{data?.data.email}</p>
-      <h1 className="text-2xl p-2 font-semibold">Age</h1>
-      <p>{data?.data.age}</p>
-      <h1 className="text-2xl p-2 font-semibold">Emergency Contact</h1>
-      <p>{data?.data.emergencyContact}</p>
-      <h1 className="text-2xl p-2 font-semibold">Phone Number</h1>
-      <p>{data?.data.numberPhone}</p>
+      <h1 className="text-2xl p-2 font-semibold">Profile</h1>
+      <div className="w-9/12 mx-auto">
+        <form>
+          <FormInput
+            title="Name"
+            field="name"
+            type="text"
+            name="name"
+            disabled={true}
+            defaultValue={data?.data.name}
+          />
+          <FormInput
+            title="Email"
+            field="email"
+            type="email"
+            name="email"
+            disabled={true}
+            defaultValue={data?.data.email}
+          />
+          <FormInput
+            title="Age"
+            field="age"
+            type="number"
+            name="age"
+            disabled={true}
+            defaultValue={data?.data.age}
+            min={40}
+            max={100}
+          />
+          <FormInput
+            title="Phone Number"
+            field="phoneNumber"
+            type="text"
+            name="phoneNumber"
+            disabled={true}
+            defaultValue={data?.data.phoneNumber}
+          />
+          <FormInput
+            title="Emergency Contact"
+            field="emergency"
+            type="text"
+            name="emergency"
+            disabled={true}
+            defaultValue={data?.data.emergencyContact}
+          />
+          <div className="text-center">
+            <button
+              type="submit"
+              disabled={true}
+              className="bg-blue-500 w-20 text-white py-2  mt-4 rounded-md transition duration-300 hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
