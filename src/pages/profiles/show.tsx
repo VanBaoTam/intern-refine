@@ -1,7 +1,15 @@
 import { useOne } from "@refinedev/core";
 import FormInput from "../../components/auth/input";
+import { useParams } from "react-router-dom";
+import { useMemo } from "react";
 export const ShowProfile = () => {
-  const { data, isLoading } = useOne({ resource: "get-profile", id: 0 });
+  const { id } = useParams();
+  const params = useMemo(() => {
+    return !Number.isNaN(parseInt(id + ""))
+      ? { resource: "get-profile", id: id + "" }
+      : { resource: "get-profile", id: 0 };
+  }, [id]);
+  const { data, isLoading } = useOne(params);
 
   if (isLoading) {
     return (

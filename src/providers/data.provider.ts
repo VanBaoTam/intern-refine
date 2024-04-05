@@ -38,12 +38,7 @@ export const dataProvider: DataProvider = {
     console.log("[update],", response);
     return handleResponse(response);
   },
-  getList: async ({
-    resource,
-    pagination,
-    filters,
-    sorters,
-  }: GetListParams) => {
+  getList: async ({ resource }: GetListParams) => {
     const response = await apiProvider.get({
       path: `${rolePath}/${resource}`,
       headers: {
