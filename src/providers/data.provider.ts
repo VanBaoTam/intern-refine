@@ -7,16 +7,18 @@ import { GetRole } from "../utils";
 
 const apiProvider = useDataProvider();
 const userProvider = useUserProvider();
-const rolePath = GetRole(userProvider.getRole());
+
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
+    const rolePath = GetRole(userProvider.getRole());
     const path = id
       ? `${rolePath}/${resource}/${id}`
       : `${rolePath}/${resource}`;
+    const token = userProvider.findToken("Bearer");
     const response = await apiProvider.get({
       path,
       headers: {
-        Authorization: "Bearer " + userProvider.findToken("Bearer"),
+        Authorization: "Bearer " + token,
       },
     });
     console.log(
@@ -39,6 +41,7 @@ export const dataProvider: DataProvider = {
     return handleResponse(response);
   },
   getList: async ({ resource }: GetListParams) => {
+    const rolePath = GetRole(userProvider.getRole());
     const response = await apiProvider.get({
       path: `${rolePath}/${resource}`,
       headers: {

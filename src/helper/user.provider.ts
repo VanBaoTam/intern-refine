@@ -40,8 +40,11 @@ export class UserProvider {
       return this.tokens[index].value;
     }
   }
+  public emptyToken() {
+    this.tokens.length = 0;
+  }
   public logout() {
-    this.role = -1;
-    this.tokens = [];
+    UserProvider.instance.setRole(-1);
+    UserProvider.instance.emptyToken();
   }
 }
