@@ -8,7 +8,6 @@ import { GetRole } from "../utils";
 const apiProvider = useDataProvider();
 const userProvider = useUserProvider();
 const rolePath = GetRole(userProvider.getRole());
-const API_URL = "https://api.fake-rest.refine.dev";
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     const path = id
@@ -45,34 +44,14 @@ export const dataProvider: DataProvider = {
     filters,
     sorters,
   }: GetListParams) => {
-    const params = new URLSearchParams();
-
-    if (pagination) {
-      params.append(
-        "_start",
-        (pagination.current! - 1) * pagination.pageSize! + ""
-      );
-      params.append("_end", pagination.current! * pagination.pageSize! + "");
-    }
-    if (sorters && sorters.length > 0) {
-      params.append("_sort", sorters.map((sorter) => sorter.field).join(","));
-      params.append("_order", sorters.map((sorter) => sorter.order).join(","));
-    }
-    if (filters && filters.length > 0) {
-      filters.forEach((filter) => {
-        if ("field" in filter && filter.operator === "eq") {
-          params.append(filter.field, filter.value);
-        }
-      });
-    }
-    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
-
-    if (response.status >= 400) {
-      throw response;
-    }
-    console.log("[get-list]: status - ", response.status);
-    const data = await response.json();
-    const total = Number(response.headers.get("x-total-count"));
+    const response = await apiProvider.get({
+      path: `${rolePath}/${resource}`,
+      headers: {
+        Authorization: "Bearer " + userProvider.findToken("Bearer"),
+      },
+    });
+    const data = response.data || [];
+    const total = data.length;
     return {
       data,
       total,

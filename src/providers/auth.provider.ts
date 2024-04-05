@@ -3,6 +3,7 @@ import { InitUserProvider, useDataProvider, useUserProvider } from "../hooks";
 import { OnErrorResponse } from "@refinedev/core/dist/interfaces";
 import { EnvironmentProvider } from "../helper/env.provider";
 import { TEnv } from "../types";
+import { ROLES } from "../constants";
 const apiProvider = useDataProvider();
 const baseUrl = EnvironmentProvider.getInstance().get(TEnv.VITE_AUTH_PATH);
 const userProvider = useUserProvider();
@@ -18,7 +19,7 @@ export const authProvider: AuthProvider = {
     });
     const { data } = response ?? {};
     console.log("[login-data] - ", data);
-    if (data.token.value && data.token.type && data.role) {
+    if (data.token.value && data.token.type && ROLES[data.role]) {
       InitUserProvider(data.role, {
         type: data.token.type,
         value: data.token.value,
