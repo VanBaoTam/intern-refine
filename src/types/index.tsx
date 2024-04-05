@@ -13,6 +13,7 @@ export interface IRequestOptions {
 export enum TEnv {
   VITE_BASE_URL = "VITE_BASE_URL",
   VITE_AUTH_PATH = "VITE_AUTH_PATH",
+  VITE_ADMIN_PATH = "VITE_ADMIN_PATH",
 }
 export interface IRequestUrl {
   baseUrl?: string;
@@ -22,3 +23,12 @@ export type TToken = {
   value: string;
   type: string;
 };
+export interface IAccount {
+  name: string;
+  username: string;
+  password: string;
+  age: number;
+  email?: string;
+  phoneNumber: string;
+  emergencyContact: string;
+}

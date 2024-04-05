@@ -3,6 +3,7 @@ import { TAsideLinks } from "../types";
 const ADMIN_ASIDE_LINKS: TAsideLinks[] = [
   { name: "Dashboard", link: "/dashboard" },
   { name: "Profiles", link: "/profiles" },
+  { name: "Accounts", link: "/accounts/register" },
 ];
 const PATIENT_ASIDE_LINKS: TAsideLinks[] = [
   { name: "Dashboard", link: "/dashboard" },

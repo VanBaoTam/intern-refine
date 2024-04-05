@@ -8,6 +8,7 @@ import { EditProfile, Profiles, ShowProfile } from "./pages/profiles";
 import Layout from "./components/layout";
 import Dashboard from "./pages/dashboard";
 import NotFound from "./pages/utils/not-found";
+import { Register } from "./pages/account/register";
 export default function App() {
   return (
     <BrowserRouter>
@@ -48,6 +49,10 @@ export default function App() {
                 <Route index element={<Profiles />} />
                 <Route path="edit/:id" element={<EditProfile />} />
                 <Route path="show/:id" element={<ShowProfile />} />
+              </Route>
+              <Route path="accounts">
+                <Route index element={<Profiles />} />
+                <Route path="register" element={<Register />} />
               </Route>
             </Route>
             <Route path="*" element={<NotFound />} />

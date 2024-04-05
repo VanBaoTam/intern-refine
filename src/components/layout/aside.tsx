@@ -6,6 +6,7 @@ import { TiHome } from "react-icons/ti";
 import { ImProfile } from "react-icons/im";
 import { TAsideLinks } from "../../types";
 import { useUserProvider } from "../../hooks";
+import { MdManageAccounts } from "react-icons/md";
 
 export const Aside = () => {
   const userProvider = useUserProvider();
@@ -22,8 +23,12 @@ export const Aside = () => {
       case "Profile": {
         return <ImProfile />;
       }
-      default:
+      case "Accounts": {
+        return <MdManageAccounts />;
+      }
+      default: {
         break;
+      }
     }
   }, []);
   const RenderElements = useCallback(

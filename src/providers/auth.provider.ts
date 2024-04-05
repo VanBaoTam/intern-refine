@@ -1,9 +1,8 @@
 import { AuthProvider } from "@refinedev/core";
 import { InitUserProvider, useDataProvider, useUserProvider } from "../hooks";
-import { OnErrorResponse } from "@refinedev/core/dist/interfaces";
 import { EnvironmentProvider } from "../helper/env.provider";
-import { TEnv } from "../types";
-import { ROLES } from "../constants";
+import { IAccount, TEnv } from "../types";
+import { HTTP_ERROR_CODE, ROLES } from "../constants";
 const apiProvider = useDataProvider();
 const baseUrl = EnvironmentProvider.getInstance().get(TEnv.VITE_AUTH_PATH);
 const userProvider = useUserProvider();
@@ -34,11 +33,33 @@ export const authProvider: AuthProvider = {
       },
     };
   },
+  register: async (account: IAccount) => {
+    const adminPath = EnvironmentProvider.getInstance().get(
+      TEnv.VITE_ADMIN_PATH
+    );
+    const token = userProvider.findToken("Bearer");
+    const response = await apiProvider.post({
+      baseUrl: adminPath,
+      path: `sign-up`,
+      body: JSON.stringify(account),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+    console.log("[Register]", response);
+    if (response.status >= HTTP_ERROR_CODE) {
+      return { success: false };
+    }
+    return {
+      success: true,
+    };
+  },
   check: async () => {
     const token = userProvider.findToken("Bearer");
     return { authenticated: Boolean(token) };
   },
-  onError: async (error): Promise<OnErrorResponse> => {
+  onError: async (error) => {
     if (error?.status === 401) {
       return {
         logout: true,
