@@ -69,8 +69,7 @@ export const authProvider: AuthProvider = {
     return data;
   },
   logout: async () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("type");
+    userProvider.logout();
     return { success: true, redirectTo: "/" };
   },
 };
