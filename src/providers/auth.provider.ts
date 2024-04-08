@@ -1,4 +1,4 @@
-import { AuthProvider } from "@refinedev/core";
+import { AuthProvider, useNotification } from "@refinedev/core";
 import { InitUserProvider, useDataProvider, useUserProvider } from "../hooks";
 import { EnvironmentProvider } from "../helper/env.provider";
 import { IAccount, TEnv } from "../types";
@@ -23,6 +23,7 @@ export const authProvider: AuthProvider = {
         type: data.token.type,
         value: data.token.value,
       });
+
       return { success: true, redirectTo: "/dashboard" };
     }
     return {

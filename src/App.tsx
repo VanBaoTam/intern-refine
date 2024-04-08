@@ -1,7 +1,6 @@
 import { Refine, Authenticated } from "@refinedev/core";
-import { dataProvider } from "./providers/data.provider";
+import "react-toastify/dist/ReactToastify.css";
 import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
-import { authProvider } from "./providers/auth.provider";
 import { Login } from "./pages/account/login";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { EditProfile, Profiles, ShowProfile } from "./pages/profiles";
@@ -9,6 +8,8 @@ import Layout from "./components/layout";
 import Dashboard from "./pages/dashboard";
 import NotFound from "./pages/utils/not-found";
 import { Register } from "./pages/account/register";
+import { dataProvider, authProvider, notificationProvider } from "./providers";
+import Toast from "./components/toast";
 export default function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ export default function App() {
         dataProvider={dataProvider}
         authProvider={authProvider}
         routerProvider={routerProvider}
+        notificationProvider={notificationProvider}
         resources={[
           {
             name: "profiles",
@@ -26,6 +28,7 @@ export default function App() {
           { name: "dashboard", list: "/dashboard" },
         ]}
       >
+        <Toast />
         <Layout>
           <Routes>
             <Route

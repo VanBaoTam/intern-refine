@@ -4,7 +4,7 @@ import { EnvironmentProvider } from "../helper/env.provider";
 import { TEnv } from "../types";
 import { HTTP_ERROR_CODE } from "../constants";
 import { GetRole } from "../utils";
-
+import { AxiosResponse } from "axios";
 const apiProvider = useDataProvider();
 const userProvider = useUserProvider();
 
@@ -85,7 +85,7 @@ export const dataProvider: DataProvider = {
   },
 };
 
-const handleResponse = async (response: any) => {
+const handleResponse = async (response: AxiosResponse) => {
   if (response.status >= HTTP_ERROR_CODE) {
     throw response;
   }
