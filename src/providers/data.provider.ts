@@ -9,9 +9,11 @@ const apiProvider = useDataProvider();
 const userProvider = useUserProvider();
 
 export const dataProvider: DataProvider = {
-  getOne: async ({ resource, id }) => {
-    const path = id ? `user/${resource}/${id}` : `user/${resource}`;
-    console.log("path", path, "id", id);
+  getOne: async ({ resource, id, meta }) => {
+    const path =
+      id === "self"
+        ? `${meta?.variables?.name}/${resource}`
+        : `${meta?.variables?.name}/${resource}/${id}`;
     const token = userProvider.findToken("Bearer");
     const response = await apiProvider.get({
       path,
