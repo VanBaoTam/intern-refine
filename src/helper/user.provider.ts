@@ -2,7 +2,7 @@ import { TToken } from "../types";
 
 export class UserProvider {
   private static instance: UserProvider;
-  private role: number = 1;
+  private role: string = "user";
   private tokens: TToken[] = [];
 
   private constructor() {}
@@ -10,19 +10,19 @@ export class UserProvider {
   static getInstance() {
     if (!UserProvider.instance) {
       UserProvider.instance = new UserProvider();
-      UserProvider.instance.setRole(1); // default - user
+      UserProvider.instance.setRole("user"); // default - user
       UserProvider.instance.addToken({ type: "default", value: "default" }); //
     }
 
     return UserProvider.instance;
   }
-  static init(role: number, token: TToken) {
+  static init(role: string, token: TToken) {
     if (role !== undefined && token !== undefined) {
       UserProvider.instance.setRole(role);
       UserProvider.instance.addToken(token);
     }
   }
-  public setRole(role: number) {
+  public setRole(role: string) {
     this.role = role;
   }
 
@@ -44,7 +44,7 @@ export class UserProvider {
     this.tokens.length = 0;
   }
   public logout() {
-    UserProvider.instance.setRole(-1);
+    UserProvider.instance.setRole("none");
     UserProvider.instance.emptyToken();
   }
 }

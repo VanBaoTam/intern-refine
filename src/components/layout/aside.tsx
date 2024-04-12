@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ROLE, ADMIN_ASIDE_LINKS, PATIENT_ASIDE_LINKS } from "../../constants";
+import { ADMIN_ASIDE_LINKS, PATIENT_ASIDE_LINKS } from "../../constants";
 import { Link } from "react-router-dom";
 import { TiHome } from "react-icons/ti";
 import { ImProfile } from "react-icons/im";
@@ -33,29 +33,46 @@ export const Aside = () => {
   }, []);
   const RenderElements = useCallback(
     (arr: TAsideLinks[]) => {
-      const elements = arr.map((ele: { name: string; link: string }) => (
-        <div className="px-3 py-5 font-semibold" key={ele.link}>
-          <Link
-            to={ele.link}
-            className={`flex flex-row items-center ${
-              location.pathname === ele.link ? "text-yellow-500" : ""
-            }`}
-          >
-            {RenderIcons(ele.name)}
-            <span className="pl-4 text-lg">{ele.name}</span>
-          </Link>
-        </div>
-      ));
+      const elements = arr.map((ele: { name: string; link: string }) => {
+        return (
+          <div className="px-3 py-5 font-semibold" key={ele.link}>
+            <Link
+              to={ele.link}
+              className={`flex flex-row items-center ${
+                location.pathname === ele.link ? "text-yellow-500" : ""
+              }`}
+            >
+              {RenderIcons(ele.name)}
+              <span className="pl-4 text-lg">{ele.name}</span>
+            </Link>
+          </div>
+        );
+      });
       return elements;
     },
-    [location]
+    [location, role]
   );
+  const RendersAside = useCallback(
+    (role: string) => {
+      switch (role) {
+        case "admin": {
+          return RenderElements(ADMIN_ASIDE_LINKS);
+        }
+        case "user": {
+          return RenderElements(PATIENT_ASIDE_LINKS);
+        }
+        default: {
+          break;
+        }
+      }
+    },
+    [location, role]
+  );
+
   return (
     <div className="bg-aside flex flex-col h-full min-w-56 max-w-56 text-white">
       <div className="h-16 w-full p-3 text-lg">COMPANY NAME</div>
-      {role === ROLE.ADMIN_ROLE
-        ? RenderElements(ADMIN_ASIDE_LINKS)
-        : RenderElements(PATIENT_ASIDE_LINKS)}
+      {RendersAside(role || "user")}
     </div>
   );
 };

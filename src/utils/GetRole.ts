@@ -1,6 +1,6 @@
 import { ROLES } from "../constants";
 
-function GetRole(key: number) {
-  return ROLES[key];
+function GetRole(key: string): string {
+  return ROLES.includes(key) ? key : "none";
 }
 export { GetRole };

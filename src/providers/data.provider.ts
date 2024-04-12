@@ -10,10 +10,8 @@ const userProvider = useUserProvider();
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
-    const rolePath = GetRole(userProvider.getRole());
-    const path = id
-      ? `${rolePath}/${resource}/${id}`
-      : `${rolePath}/${resource}`;
+    const path = id ? `user/${resource}/${id}` : `user/${resource}`;
+    console.log("path", path, "id", id);
     const token = userProvider.findToken("Bearer");
     const response = await apiProvider.get({
       path,
@@ -48,7 +46,7 @@ export const dataProvider: DataProvider = {
         Authorization: "Bearer " + userProvider.findToken("Bearer"),
       },
     });
-    const data = response.data || [];
+    const data = response.data.data || [];
     const total = data.length;
     return {
       data,

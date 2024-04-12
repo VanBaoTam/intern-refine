@@ -8,7 +8,7 @@ export const useDataProvider = () => {
 export const useEnvProvider = () => {
   return EnvironmentProvider.getInstance();
 };
-export const InitUserProvider = (role: number, token: TToken) => {
+export const InitUserProvider = (role: string, token: TToken) => {
   UserProvider.init(role, token);
 };
 export const useUserProvider = () => {

@@ -5,9 +5,7 @@ import { useMemo } from "react";
 export const ShowProfile = () => {
   const { id } = useParams();
   const params = useMemo(() => {
-    return !Number.isNaN(parseInt(id + ""))
-      ? { resource: "get-profile", id: id + "" }
-      : { resource: "get-profile", id: 0 };
+    return { resource: "get-profile", id: id + "" };
   }, [id]);
   const { data, isLoading } = useOne(params);
 

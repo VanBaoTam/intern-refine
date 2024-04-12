@@ -19,7 +19,7 @@ export const authProvider: AuthProvider = {
       });
       const { data } = response ?? {};
       console.log("[login-data] - ", data);
-      if (data.token.value && data.token.type && ROLES[data.role]) {
+      if (data.token.value && data.token.type && ROLES.includes(data.role)) {
         InitUserProvider(data.role, {
           type: data.token.type,
           value: data.token.value,
