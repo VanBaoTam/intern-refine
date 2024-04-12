@@ -1,7 +1,7 @@
 import { NotificationProvider, OpenNotificationParams } from "@refinedev/core";
 import { toast } from "react-toastify";
 export const notificationProvider: NotificationProvider = {
-  open: ({ message, key, type, description }: OpenNotificationParams) => {
+  open: ({ message, key, type }: OpenNotificationParams) => {
     if (type === "success") {
       toast(message, {
         toastId: key || "notif",
@@ -9,7 +9,7 @@ export const notificationProvider: NotificationProvider = {
       });
     }
     if (type === "error") {
-      toast(description, {
+      toast(message, {
         toastId: key,
         type,
       });

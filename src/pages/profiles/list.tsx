@@ -1,4 +1,4 @@
-import { HttpError, useList, useGo, useNotification } from "@refinedev/core";
+import { HttpError, useList, useGo } from "@refinedev/core";
 import "./list.css";
 export const Profiles = () => {
   const { data, isLoading, isError } = useList<any, HttpError>({

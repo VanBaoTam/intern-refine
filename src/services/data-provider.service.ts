@@ -43,9 +43,9 @@ export class DataProviderService {
       const response = await axios.request(props);
       console.log("[response-api-data]:", response.data);
       return response;
-    } catch (error) {
-      console.error("[send-api],%s", error);
-      throw error;
+    } catch (error: any) {
+      console.error("[send-api],", error);
+      return Promise.reject(error);
     }
   }
 

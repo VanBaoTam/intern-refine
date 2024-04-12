@@ -1,4 +1,4 @@
-import { AuthProvider, useNotification } from "@refinedev/core";
+import { AuthProvider } from "@refinedev/core";
 import { InitUserProvider, useDataProvider, useUserProvider } from "../hooks";
 import { EnvironmentProvider } from "../helper/env.provider";
 import { IAccount, TEnv } from "../types";
@@ -8,31 +8,43 @@ const baseUrl = EnvironmentProvider.getInstance().get(TEnv.VITE_AUTH_PATH);
 const userProvider = useUserProvider();
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
-    const response = await apiProvider.post({
-      baseUrl,
-      path: `login`,
-      body: JSON.stringify({ username, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { data } = response ?? {};
-    console.log("[login-data] - ", data);
-    if (data.token.value && data.token.type && ROLES[data.role]) {
-      InitUserProvider(data.role, {
-        type: data.token.type,
-        value: data.token.value,
+    try {
+      const response = await apiProvider.post({
+        baseUrl,
+        path: `login`,
+        body: JSON.stringify({ username, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+      const { data } = response ?? {};
+      console.log("[login-data] - ", data);
+      if (data.token.value && data.token.type && ROLES[data.role]) {
+        InitUserProvider(data.role, {
+          type: data.token.type,
+          value: data.token.value,
+        });
 
-      return { success: true, redirectTo: "/dashboard" };
+        return { success: true, redirectTo: "/dashboard" };
+      } else {
+        return {
+          success: false,
+          error: {
+            name: "Login Error",
+            message: "Incorrect password or username",
+          },
+        };
+      }
+    } catch (error: any) {
+      console.error("Error during login:", error.response);
+      return {
+        success: false,
+        error: {
+          name: error.response.data.message,
+          message: "An error occurred during login",
+        },
+      };
     }
-    return {
-      success: false,
-      error: {
-        name: "Login Error",
-        message: "Login Failed",
-      },
-    };
   },
   register: async (account: IAccount) => {
     const adminPath = EnvironmentProvider.getInstance().get(
@@ -61,6 +73,7 @@ export const authProvider: AuthProvider = {
     return { authenticated: Boolean(token) };
   },
   onError: async (error) => {
+    console.log("error", error);
     if (error?.status === 401) {
       return {
         logout: true,
