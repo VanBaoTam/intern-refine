@@ -8,7 +8,7 @@ export const Header = () => {
   const { data: identity } = useGetIdentity();
 
   return (
-    <div className="bg-white flex content-between items-center h-16  shadow-part border-b-2">
+    <div className="bg-white flex content-between items-center min-h-16  shadow-part border-b-2">
       <div className="w-9/12"></div>
       <h1>
         <span className="">Welcome, </span>

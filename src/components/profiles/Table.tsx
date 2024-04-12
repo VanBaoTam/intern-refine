@@ -6,12 +6,14 @@ import {
   type MRT_ColumnDef,
 } from "mantine-react-table";
 import { useGo } from "@refinedev/core";
+import { FaEye } from "react-icons/fa";
+
 type Profile = {
   id: string;
   name: string;
   phoneNumber: string;
 };
-import { FaEye } from "react-icons/fa";
+
 const ProfileTable = (props: { profiles: Profile[] }) => {
   const go = useGo();
   const { profiles = [] } = props ?? {};
@@ -62,7 +64,11 @@ const ProfileTable = (props: { profiles: Profile[] }) => {
     },
   });
 
-  return <MantineReactTable table={table} />;
+  return (
+    <div style={{ overflowY: "auto" }}>
+      <MantineReactTable table={table} />
+    </div>
+  );
 };
 
 export default ProfileTable;

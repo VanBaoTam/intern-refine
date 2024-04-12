@@ -16,9 +16,9 @@ export const Profiles = () => {
   }
 
   return (
-    <div className="h-full bg-white px-4 ">
+    <div className="h-full bg-white px-4 overflow-y-auto">
       <h1 className="text-2xl p-2 font-semibold">Profiles</h1>
-      <div className="overflow-x-auto ">
+      <div className=" max-h-full">
         {!isError && profiles.length > 0 ? (
           <ProfileTable profiles={profiles} />
         ) : (

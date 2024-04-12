@@ -17,7 +17,9 @@ function Layout({ children }: { children: ReactNode }) {
             </div>
           </>
         ) : (
-          <div className="flex flex-col h-full m-auto w-11/12">{children}</div>
+          <div className="flex flex-col h-full m-auto w-11/12 overflow-y-auto">
+            {children}
+          </div>
         )}
       </div>
     </div>
