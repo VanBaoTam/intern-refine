@@ -1,6 +1,7 @@
-import { useOne } from "@refinedev/core";
+import {useOne, useUpdate} from "@refinedev/core";
 import FormInput from "../../components/auth/input";
 import { useParams } from "react-router-dom";
+import React from "react";
 export const ShowProfile = () => {
   const { id } = useParams();
 
@@ -14,6 +15,8 @@ export const ShowProfile = () => {
     },
   });
 
+  const { mutate } = useUpdate();
+
   if (isLoading) {
     return (
       <div className="h-full bg-white px-4 ">
@@ -22,17 +25,31 @@ export const ShowProfile = () => {
     );
   }
 
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = Object.fromEntries(
+        new FormData(event.currentTarget).entries()
+    );
+
+    mutate({
+      resource: "update-profile",
+      id: id + "",
+      values : {
+        profile: data,
+      },
+    });
+  };
+
   return (
     <div className="h-full bg-white px-4 ">
       <h1 className="text-2xl p-2 font-semibold">Profile</h1>
       <div className="w-9/12 mx-auto">
-        <form>
+        <form onSubmit={onSubmit}>
           <FormInput
             title="Name"
             field="name"
             type="text"
             name="name"
-            disabled={true}
             defaultValue={data?.data.name}
           />
           <FormInput
@@ -40,7 +57,6 @@ export const ShowProfile = () => {
             field="email"
             type="email"
             name="email"
-            disabled={true}
             defaultValue={data?.data.email}
           />
           <FormInput
@@ -48,7 +64,6 @@ export const ShowProfile = () => {
             field="age"
             type="number"
             name="age"
-            disabled={true}
             defaultValue={data?.data.age}
             min={40}
             max={100}
@@ -58,7 +73,6 @@ export const ShowProfile = () => {
             field="phoneNumber"
             type="text"
             name="phoneNumber"
-            disabled={true}
             defaultValue={data?.data.phoneNumber}
           />
           <FormInput
@@ -66,13 +80,11 @@ export const ShowProfile = () => {
             field="emergency"
             type="text"
             name="emergency"
-            disabled={true}
             defaultValue={data?.data.emergencyContact}
           />
           <div className="text-center">
             <button
               type="submit"
-              disabled={true}
               className="bg-blue-500 w-20 text-white py-2  mt-4 rounded-md transition duration-300 hover:bg-blue-600"
             >
               Submit
