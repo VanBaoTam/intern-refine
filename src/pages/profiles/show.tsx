@@ -27,15 +27,24 @@ export const ShowProfile = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = Object.fromEntries(
-        new FormData(event.currentTarget).entries()
-    );
+    // const data = Object.fromEntries(
+    //     new FormData(event.currentTarget).entries()
+    // );
+    const formData = new FormData(event.currentTarget);
+    const dataWithoutEmergency = Object.fromEntries([...formData.entries()].filter(([key]) => key !== 'emergency'));
+
+    console.log("check data: ", dataWithoutEmergency)
 
     mutate({
-      resource: "update-profile",
+      resource: "change-profile",
       id: id + "",
       values : {
-        profile: data,
+        profile: dataWithoutEmergency,
+      },
+      meta: {
+        variables: {
+          name: "user",
+        },
       },
     });
   };
