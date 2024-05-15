@@ -108,4 +108,52 @@ export const authProvider: AuthProvider = {
     userProvider.logout();
     return { success: true, redirectTo: "/" };
   },
+  updatePassword: async ({ oldPwd, newPwd, retypePwd }) => {
+    try {
+      const token = userProvider.findToken("Bearer");
+      if (!token) {
+        return {
+          success: false,
+          error: {
+            name: "Update Password Error",
+            message: "User not authenticated",
+          },
+        };
+      }
+
+      const response = await apiProvider.put({
+        baseUrl,
+        path: `change-password`,
+        body: JSON.stringify({ oldPwd, newPwd, retypePwd }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      console.log(
+          "[put-pass]: status - ",
+          response.status,
+          ", data:",
+          response.data
+      );
+
+      const { data } = response ?? {};
+      console.log("[pass-data] - ", data);
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error: any) {
+      console.error("Error during password update:", error.response);
+      return {
+        success: false,
+        error: {
+          name: error.response.data.message,
+          message: "An error occurred during password update",
+        },
+      };
+    }
+  }
 };

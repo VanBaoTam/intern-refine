@@ -29,12 +29,19 @@ export const dataProvider: DataProvider = {
     );
     return handleResponse(response);
   },
-  update: async ({ resource, id, variables }) => {
-    const response = await apiProvider.patch({
-      path: `${resource}/${id}`,
+  update: async ({ resource, id, variables, meta }) => {
+    console.log("check var: ", variables, meta);
+    const path =
+        id === "self"
+            ? `${meta?.variables?.name}/${resource}`
+            : `${meta?.variables?.name}/${resource}/${id}`;
+    const token = userProvider.findToken("Bearer");
+    const response = await apiProvider.put({
+      path,
       body: variables,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
     });
     console.log("[update],", response);
